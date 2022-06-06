@@ -1,6 +1,9 @@
 
-npn init -y
-$ npm install --save-dev parcel
-npm run build
-
+## Start
+``
 npm start
+``
+##
+``
+npm run build
+``
