@@ -41,6 +41,9 @@
   width: 30px;
   height: 20px;
   cursor: pointer;
+}
+
+.bandeiras #voices {
   display: none;
 }
 

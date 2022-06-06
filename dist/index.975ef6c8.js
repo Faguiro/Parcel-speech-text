@@ -513,11 +513,10 @@ function pegarTag(tag) {
     this.element.forEach(function(item) {
         let s = item.parentElement.firstElementChild //pega o primeiro elemento do pai
         ;
-        console.log(s);
         let x = item.parentElement.lastElementChild //pega o ultimo elemento do pai
         ;
         s.onmouseover = function() {
-            (0, _jsFala.fala)(item.innerText) //fala o texto do item
+            (0, _jsFala.fala)(item.innerText, (0, _jsCookieDefault.default).get("bandeira")) //fala o texto do item
             ;
         };
         x.onclick = function() {
@@ -527,10 +526,9 @@ function pegarTag(tag) {
     });
 }
 $(document).ready(function() {
-    pegarTag("P");
     (0, _jsFala.fala)("Bem vindo ao sistema!");
     $(".start").click(function() {
-        const mensagem = $("#speech").val();
+        const mensagem = $("#msg").val();
         const lista = $("#lista");
         if (mensagem != "") lista.append(`<span class="lista-msg">
             <div id="icon-play">🗣️</div>
@@ -538,16 +536,16 @@ $(document).ready(function() {
             <h4 id="trash">🗑️</h4>
             </span>`);
         pegarTag("p");
-        (0, _jsFala.fala)(mensagem);
+        (0, _jsFala.fala)(mensagem, (0, _jsCookieDefault.default).get("bandeira"));
     });
-/* $(".bandeiras").click(function (e) {
-        e.preventDefault()
-        let self = e.target
-        console.log(e)
-       self.classList.value
-       Cookies.set('bandeira', self.classList.value)
-       console.log(Cookies.get('bandeira'));
-        }) */ }) //fim do document ready
+    $(".bandeiras").click(function(e) {
+        e.preventDefault();
+        let self = e.target;
+        self.classList.value;
+        (0, _jsCookieDefault.default).set("bandeira", self.classList.value);
+        console.log((0, _jsCookieDefault.default).get("bandeira"));
+    });
+}) //fim do document ready
 ;
 
 },{"./efects":"7UFb9","./jsFala":"584AU","js-cookie":"c8bBu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7UFb9":[function(require,module,exports) {
@@ -607,17 +605,16 @@ exports.export = function(dest, destName, get) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "fala", ()=>fala);
-function fala(texto) {
-    if (texto === "") return;
-    const form = document.getElementById("voice-form");
-    const input = document.getElementById("speech");
+var _jsCookie = require("js-cookie");
+var _jsCookieDefault = parcelHelpers.interopDefault(_jsCookie);
+function fala(texto, callback) {
     const main = document.getElementsByTagName("main")[0];
     const voiceSelect = document.getElementById("voices");
     let voices;
     let currentVoice;
     const populateVoices = ()=>{
         const availableVoices = speechSynthesis.getVoices();
-        voiceSelect.innerHTML = "";
+        //voices = availableVoices.filter(voice => voice.lang === 'pt-BR');
         availableVoices.forEach((voice)=>{
             const option = document.createElement("option");
             let optionText = `${voice.name} (${voice.lang})`;
@@ -633,35 +630,38 @@ function fala(texto) {
             voiceSelect.appendChild(option);
         });
         voices = availableVoices;
+    // Cookies.set('vozes', voiceSelect.value)
+    // voices = availableVoices[callback];
+    //console.log(voices);
     };
-    populateVoices();
-    if (speechSynthesis.onvoiceschanged !== undefined) speechSynthesis.onvoiceschanged = populateVoices;
+    populateVoices(); //
+    if (speechSynthesis.onvoiceschanged !== undefined) speechSynthesis.onvoiceschanged = populateVoices; //popula as vozes
+    // currentVoice = voices;
+    const toSay = texto;
     voiceSelect.addEventListener("change", (event)=>{
         const selectedIndex = event.target.selectedIndex;
-        currentVoice = voices[selectedIndex];
+        (0, _jsCookieDefault.default).set("vozes", selectedIndex);
     });
-    form.addEventListener("submit", (event)=>{
-        //event.preventDefault();
-        //const toSay = input.value.trim();
-        const toSay = texto;
-        const utterance = new SpeechSynthesisUtterance(toSay);
-        utterance.voice = currentVoice;
-        utterance.addEventListener("start", (event)=>{
-            main.classList.add("speaking");
-        });
-        utterance.addEventListener("end", (event)=>{
-            main.addEventListener("animationiteration", (event)=>{
-                main.classList.remove("speaking");
-            }, {
-                once: true
-            });
-        });
-        speechSynthesis.speak(utterance);
-        input.value = "";
+    // console.log();
+    currentVoice = (0, _jsCookieDefault.default).get("vozes");
+    const utterance = new SpeechSynthesisUtterance(toSay);
+    utterance.voice = voices[callback];
+    //
+    utterance.addEventListener("start", (event)=>{
+        main.classList.add("speaking");
     });
+    utterance.addEventListener("end", (event)=>{
+        main.addEventListener("animationiteration", (event)=>{
+            main.classList.remove("speaking");
+        }, {
+            once: true
+        });
+    });
+    speechSynthesis.speak(utterance);
+    return;
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"c8bBu":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","js-cookie":"c8bBu"}],"c8bBu":[function(require,module,exports) {
 (function(global, factory) {
     module.exports = factory();
 })(this, function() {

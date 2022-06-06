@@ -7,10 +7,9 @@ function pegarTag(tag) {
     this.element = document.querySelectorAll(tag);
     this.element.forEach(function (item) {//para cada item da lista
         let s = item.parentElement.firstElementChild//pega o primeiro elemento do pai
-        console.log(s)
         let x = item.parentElement.lastElementChild//pega o ultimo elemento do pai
         s.onmouseover = function () {
-            fala(item.innerText)//fala o texto do item
+            fala(item.innerText,Cookies.get('bandeira'))//fala o texto do item
         }
         x.onclick = function () {
             x.parentElement.remove()//remove o item
@@ -19,12 +18,11 @@ function pegarTag(tag) {
 }
 
 $(document).ready(function () {
-    
-    pegarTag("P")
     fala("Bem vindo ao sistema!")
 
+
     $(".start").click(function () {
-        const mensagem = $('#speech').val()
+        const mensagem = $('#msg').val()
         const lista = $('#lista')
         if (mensagem != "") {
             lista.append(
@@ -35,17 +33,16 @@ $(document).ready(function () {
             </span>`)
         }
         pegarTag("p")
-        fala(mensagem)
+        fala(mensagem,Cookies.get('bandeira'))
     });
 
-    /* $(".bandeiras").click(function (e) {
+    $(".bandeiras").click(function (e) {
         e.preventDefault()
         let self = e.target
-        console.log(e)
        self.classList.value
        Cookies.set('bandeira', self.classList.value)
        console.log(Cookies.get('bandeira'));
-        }) */
+        })
         
    
 

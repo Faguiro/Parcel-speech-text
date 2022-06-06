@@ -37,12 +37,15 @@
     justify-content: center;
 
     & img {
-        display: none;
+        
         width: 30px;
         height: 20px;
         cursor: pointer;
 
 
+    }
+    #voices{
+        display: none;
     }
 
 }
