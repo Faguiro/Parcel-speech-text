@@ -37,17 +37,14 @@
     justify-content: center;
 
     & img {
-        
         width: 30px;
-        height: 20px;
+        height: auto;
         cursor: pointer;
-
-
     }
+
     #voices{
-        display: none;
+        //display: none;
     }
-
 }
 
 #lista {
@@ -71,6 +68,10 @@
         width: 30px;
         height: 30px;
         -webkit-user-select: none;
+        &:hover{
+            background-color: hsl(0, 0%, 90%);
+            transform:scale(1.1)
+        }
     }
 
     #x-msg {
@@ -79,6 +80,15 @@
 
     #trash {
         margin: 0 10px;
+        cursor: pointer;
+        &:hover{
+            background-color: hsl(0, 0%, 90%);
+            transform:scale(1.1)
+        }
     }
 
+}
+
+.selected{
+    border:1px solid goldenrod;
 }

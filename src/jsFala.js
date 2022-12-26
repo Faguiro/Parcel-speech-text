@@ -9,6 +9,11 @@ function fala(texto, callback) {
   const populateVoices = () => {
     const availableVoices = speechSynthesis.getVoices();
     //voices = availableVoices.filter(voice => voice.lang === 'pt-BR');
+    availableVoices.forEach(function (i, e) {
+      console.log(e);
+      console.log(i)
+      voiceSelect.options[i] = new Option(e.name, i);
+    })
 
     availableVoices.forEach(voice => {
       const option = document.createElement('option');
@@ -34,39 +39,30 @@ function fala(texto, callback) {
 
   };
   populateVoices();//
-
-
-
   if (speechSynthesis.onvoiceschanged !== undefined) {//se existir onvoiceschanged
     speechSynthesis.onvoiceschanged = populateVoices;//popula as vozes
-
   }
 
   // currentVoice = voices;
-  const toSay = texto 
+  const toSay = texto
 
   voiceSelect.addEventListener('change', event => {
     const selectedIndex = event.target.selectedIndex;
-    
+
     Cookies.set('vozes', selectedIndex)
   });
- // console.log();
-currentVoice = Cookies.get('vozes'); 
+  // console.log();
+  currentVoice = Cookies.get('vozes');
   const utterance = new SpeechSynthesisUtterance(toSay);
 
-  utterance.voice =voices[callback];
+  utterance.voice = voices[callback];
   //
   utterance.addEventListener('start', event => {
     main.classList.add('speaking');
   });
-  utterance.addEventListener('end', event => {
-    main.addEventListener(
-      'animationiteration',
-      event => {
+  utterance.addEventListener('end', event => { main.addEventListener( 'animationiteration',event => {
         main.classList.remove('speaking');
-      },
-      {
-        once: true
+      }, { once: true
       }
     );
   });

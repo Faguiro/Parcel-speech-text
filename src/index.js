@@ -1,6 +1,6 @@
-import { removeParents, teste } from "./efects" //importa o arquivo efects.js
+//import { removeParents, teste } from "./efects" //importa o arquivo efects.js
 import { fala } from "./jsFala" //importa o arquivo js-fala.js
-import { generateColor } from "./efects" //importa o arquivo effects.js
+//import { generateColor } from "./efects" //importa o arquivo effects.js
 import Cookies from "js-cookie";
 
 function pegarTag(tag) {
@@ -18,8 +18,7 @@ function pegarTag(tag) {
 }
 
 $(document).ready(function () {
-    fala("Bem vindo ao sistema!")
-
+    //fala("Bem vindo ao sistema!")
 
     $(".start").click(function () {
         const mensagem = $('#msg').val()
@@ -42,6 +41,8 @@ $(document).ready(function () {
        self.classList.value
        Cookies.set('bandeira', self.classList.value)
        console.log(Cookies.get('bandeira'));
+       $(self).toggleClass('selected')
+       $(self).siblings().removeClass('selected')
         })
         
    
